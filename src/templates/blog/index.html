@@ -1,0 +1,48 @@
+{% extends 'blog/base.html' %}
+{% block content %}
+<div class="container">
+    <h1 class="text-left py-3">MOST RECENT</h1>
+    <hr>
+    <!-- most recent section  start -->
+
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+        {% for card in Dina_post %}
+        <div class="col">
+          <div class="card h-100">
+           
+            <img src="{% if card.featured %}{{card.featured.url}}{% endif %}" class="card-img-top" alt="...">
+
+            <div class="card-body">
+              <h5 class="card-title"><a href="{% url 'single_post' card.slug %}" class="text-decoration-none text-danger">{{card.title}}</a></h5>
+              <p class="card-text">{{card.content|truncatewords:30|safe}}</div>
+            <div class="card-footer">
+              <small class="text-muted">Last updated {{card.update_post|timesince}} ago</small>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+    </div>    
+    <!-- most recent section end -->
+
+    <h1 class="text-left py-3 my-3">ALL POST</h1>
+    <hr>
+
+    <div class="row row-cols-1 row-cols-md-3 g-4 mb-4">
+        {% for card in Dina_post %}
+        <div class="col">
+          <div class="card h-100">
+            <img src="{% if card.featured %}{{card.featured.url}}{% endif %}" class="card-img-top" alt="...">
+            <div class="card-body">
+              <h5 class="card-title"><a href="{% url 'single_post' card.slug %}" class="text-decoration-none text-danger">{{card.title}}</a></h5>
+              <p class="card-text">{{card.content|truncatewords:30|safe}}</div>
+            <div class="card-footer">
+              <small class="text-muted">Last updated {{card.update_post|timesince}} ago</small>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock content %}
+

@@ -1,0 +1,77 @@
+{% extends 'blog/base.html' %}
+
+{% block content %}
+
+<div class="container">
+    <h1 class="text-center py-3">OTHERS SECTION</h1>
+    <hr>
+
+    <!-- card section  start -->
+
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+        {% for creation in tool_post %}
+        <div class="col">
+          <div class="card h-100">
+            <img src="{% if creation.featured %}{{creation.featured.url}}{% endif %}" class="card-img-top" alt="...">
+            <div class="card-body">
+              <h5 class="card-title"><a href="{% url 'single_post' creation.slug %}" class="text-decoration-none text-danger">{{creation.title}}</a></h5>
+              <p class="card-text">{{creation.content|truncatewords:30|safe}}</div>
+            <div class="card-footer">
+              <small class="text-muted">Last updated {{creation.update_post|timesince}} ago</small>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+    </div>    
+    <!-- card section end -->
+
+
+    <!-- pagination start -->
+
+    <nav aria-label="page navigation example" class="py-4">
+      <ul class="pagination justify-content-center">
+
+        {% if tool_post.has_previous %}
+
+        <li class="page-item">
+          <a class="page-link" href="?page={{tool_post.previous_page_number}}">Previous</a>
+        </li>
+
+        {% else %}
+        <li class="page-item disable">
+          <a class="page-link">Previous</a>
+        </li>
+
+        {% endif %}
+
+        {% for i in tool_post.paginator.page_range  %}
+
+        {% if tool_post.number == i %}
+        <li class="page-item active"><a class="page-link" href="?page={{i}}">{{i}}</a>
+
+        {% else %}
+        <li class="page-item"><a class="page-link" href="?page={{i}}">{{i}}</a>
+
+        {% endif %} 
+        {% endfor %}
+
+        {% if tool_post.has_next %}
+        <li class="page-item">
+          <a class="page-link" href="?page={{tool_post.next_page_number}}">Next</a>
+        </li>
+
+        {% else %}
+        <li class="page-item disable">
+          <a class="page-link">Next</a>
+        </li>
+
+        {% endif %}
+
+      </ul>
+    </nav>
+
+    <!-- pagination end -->
+
+</div>
+    
+{% endblock content %}

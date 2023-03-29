@@ -1,0 +1,101 @@
+{% extends 'blog/base.html' %}
+
+
+{% block head %}  
+<title>{%if post.meta_title %} {{post.meta_title}} {%else%} {{post.title}} {%endif%}</title>
+<meta name="description" content="{%if post.meta_des %} {{post.meta_des}} {%else%} {{post.content|truncatechars:200}} {%endif%}" />
+{% endblock head %}
+
+{% block content %}
+
+<div class="container">
+    <div class="row py-3">
+
+
+        <div class="col-md-9">
+            <h1 class="h3">{{post.title}}</h1>
+            <!-- breadcrump start -->
+              
+              <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                  <li class="breadcrumb-item"><a class="text-decoration-none text-danger" href="{% url 'home' %}">Home</a></li>
+                  <li class="breadcrumb-item"><a class="text-decoration-none text-danger" href="#">{{post.category.title}}</a></li>
+                  <li class="breadcrumb-item active" aria-current="page">{{post.title}}</li>
+                </ol>
+              </nav>
+              <hr>
+
+            <!-- breadcrump end -->
+
+
+            <!-- content start -->
+            <div class="my-3">
+
+              <div class="my-3">
+
+                <img src="{% if post.featured %}{{ post.featured.url }}{% endif %}" class="card-img-top" alt="...">             
+            </div>
+              {{post.content|safe}}
+            </div>
+            <!-- content end -->
+              {{post.update_post}}
+
+              <br><br>
+
+            <!-- comment and social share section start -->
+
+              {% load social_share %}
+              {% post_to_twitter "SSC Birds: Post it!" object_or_url "Post on Twitter" %}
+              {% post_to_facebook object_or_url "Post to Facebook" %}
+              {% post_to_linkedin object_or_url "Post to Linkedin" %}
+              
+              <!-- Comment Section -->
+              
+              <h3 class="py-3">Add a Comment</h3>
+
+        
+              
+              <div class="mb-3 w-75">
+                <label for="exampleFormControlInput1" class="form-label">Your Name</label>
+                <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="Name">
+                <label for="exampleFormControlInput1" class="form-label my-2">Email address</label>
+                <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com">
+              </div>
+              <div class="mb-3 w-75">
+                <label for="exampleFormControlTextarea1" class="form-label">Your Text</label>
+                <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                <button class="btn btn-primary my-3">Add Comment</button>
+              </div>
+             
+        </div>
+
+
+        <div class="col-md-3">
+            <aside class="col-lg-12">
+                <div class="widget mb-6">
+                    <h3 class="widget-title text-center text-dark">Recent Posts</h3>
+                    <hr><hr><hr>
+
+                    {% for recent_post in recent_posts %}
+                    <div class="container text-center">
+                      <div class="row my-1 ">
+                        <div class="col-12">
+                          <div class="p-2 border bg-light py-3">
+                            <a class="class="text-decoration-none text-danger" href="{{ recent_post.get_absolute_url }}">{{ recent_post.title }}</a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  
+                  {% endfor %}
+                </aside>
+          </div>
+        
+        
+
+        </div>
+
+
+    </div>
+</div>>   
+{% endblock content %}
